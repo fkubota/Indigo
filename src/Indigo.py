@@ -8,7 +8,7 @@ import PyQt5.QtGui as QG
 import PyQt5.QtCore as QC
 from PyQt5.QtGui import QIcon
 import matplotlib.pyplot as plt
-from libs.matplotlib_mod import Matplotlib_mod
+from libs.matplotlib_mod import MatplotlibMod
 
 
 class Indigo(QW.QMainWindow):
@@ -25,7 +25,7 @@ class Indigo(QW.QMainWindow):
         lbl_smple_img.setPixmap(pixmap.scaled(100, 100))
         # ----------
 
-        self.mlp_widget = Matplotlib_mod()
+        self.mlp_widget = MatplotlibMod()
         self.mlp_widget.sample_plot()
 
 

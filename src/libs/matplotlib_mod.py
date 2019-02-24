@@ -3,9 +3,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import PyQt5.QtWidgets as QW
 
-class Matplotlib_mod(QW.QWidget):
+class MatplotlibMod(QW.QWidget):
     def __init__(self, parent=None):
-        super(Matplotlib_mod, self).__init__(parent)
+        super(MatplotlibMod, self).__init__(parent)
 
         # matplotlib
         self.figure = plt.figure()
