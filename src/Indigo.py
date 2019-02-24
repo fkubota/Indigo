@@ -1,6 +1,7 @@
 import sys
+import os
 import PyQt5.QtWidgets as QW
-
+from PyQt5.QtGui import QIcon
 
 class ModelResort(QW.QMainWindow):
     def __init__(self, parent=None):
@@ -9,6 +10,9 @@ class ModelResort(QW.QMainWindow):
 
 def main():
     app = QW.QApplication(sys.argv)
+    path = './icon/images/indigo_icon.png'
+    path = path.replace('/', str(os.sep))
+    app.setWindowIcon(QIcon(path))
     w = ModelResort()
     w.show()
     sys.exit(app.exec_())
