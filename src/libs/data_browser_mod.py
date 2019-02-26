@@ -69,11 +69,11 @@ class DataBrowserMod(QW.QWidget):
     def lv_data_clikced(self, selected_idx):
         idx = selected_idx.row()
         feats = self.feat_name_list[idx]
-        for feat in feats:
-            self.cb_feat0.clear()
-            self.cb_feat1.clear()
-            self.cb_class.clear()
 
+        self.cb_feat0.clear()
+        self.cb_feat1.clear()
+        self.cb_class.clear()
+        for feat in feats:
             self.cb_feat0.addItem(feat)
             self.cb_feat1.addItem(feat)
             self.cb_class.addItem(feat)
