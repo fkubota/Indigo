@@ -28,7 +28,6 @@ class Indigo(QW.QMainWindow):
         self.mlp_widget = MatplotlibMod()
         self.mlp_widget.sample_plot()
 
-
         vbox0 = QW.QVBoxLayout()
         vbox0.addWidget(self.mlp_widget)
         vbox0.addWidget(lbl_smple_img)

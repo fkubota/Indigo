@@ -4,7 +4,6 @@ import glob
 import pandas as pd
 import PyQt5.QtWidgets as QW
 import PyQt5.QtGui as QG
-import PyQt5.QtCore as QC
 from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
 import matplotlib.pyplot as plt
 # import seaborn as sns
@@ -49,6 +48,7 @@ class DataBrowserMod(QW.QWidget):
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
         self.ax = self.figure.add_subplot(111)
+        toolbar = NavigationToolbar(self.canvas, self.canvas)
 
         # layout
         vbox0 = QW.QVBoxLayout()
@@ -61,8 +61,10 @@ class DataBrowserMod(QW.QWidget):
         vbox0.addWidget(self.cb_feat1)
         vbox0.addWidget(self.lbl_class)
         vbox0.addWidget(self.cb_class)
+        vbox0.addWidget(toolbar)
         vbox0.addWidget(self.canvas)
         self.setLayout(vbox0)
+        self.sample_data_list=[]
 
         self.get_sample_datasets('./../../sample_datasets')
 
