@@ -7,8 +7,8 @@ import PyQt5.QtGui as QG
 import PyQt5.QtCore as QC
 from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
 import matplotlib.pyplot as plt
-import seaborn as sns
-sns.set(style='darkgrid')
+# import seaborn as sns
+# sns.set(style='darkgrid')
 
 
 class DataBrowserMod(QW.QWidget):
@@ -70,6 +70,10 @@ class DataBrowserMod(QW.QWidget):
         idx = selected_idx.row()
         feats = self.feat_name_list[idx]
         for feat in feats:
+            self.cb_feat0.clear()
+            self.cb_feat1.clear()
+            self.cb_class.clear()
+
             self.cb_feat0.addItem(feat)
             self.cb_feat1.addItem(feat)
             self.cb_class.addItem(feat)
@@ -98,11 +102,19 @@ class DataBrowserMod(QW.QWidget):
         feat0 = df_dataset.iloc[:, feat0_idx]
         feat1 = df_dataset.iloc[:, feat1_idx]
         classes = df_dataset.iloc[:, class_idx]
+        print(len(classes.unique()))
+        print(len(classes.unique())>10)
+        if len(classes.unique()) > 10:
+            print('plot shinaiyo')
+            return
+        print('plot suruyo')
 
         self.ax.clear()
-        self.ax.plot(feat0, feat1, lw=0, marker='.', markersize=10, alpha=0.5)
+        for class_ in classes:
+            self.ax.plot(feat0[classes == class_],
+                         feat1[classes == class_],
+                         lw=0, marker='.', markersize=5, alpha=0.5)
         self.canvas.draw()
-
         # selected_idx = index.row()
         # sample_data0 = self.sample_data_list[0]
         # sample_data = self.sample_data_list[selected_idx]
