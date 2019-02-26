@@ -13,9 +13,6 @@ import matplotlib.pyplot as plt
 class DataBrowserMod(QW.QWidget):
     def __init__(self, parent=None):
         super(DataBrowserMod, self).__init__(parent)
-        self.sample_name_list = []
-        self.sample_data_list = []
-        self.sample_dict = []
         self.datasets = []
         self.sample_name_list = []
         self.feat_name_list = []
@@ -41,14 +38,13 @@ class DataBrowserMod(QW.QWidget):
         self.item_model = QG.QStandardItemModel(self.lv_data)
         self.lv_data.setModel(self.item_model)
         self.lv_data.clicked.connect(self.lv_data_clikced)
-        sample_dict = self.get_sample_dict()
-        # self.set_sample_dict2item_model(self.item_model, sample_dict)
 
         # matplotlib widget
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
         self.ax = self.figure.add_subplot(111)
-        toolbar = NavigationToolbar(self.canvas, self.canvas)
+        toolbar = NavigationToolbar(self.canvas, parent=self.canvas)
+        # toolbar.resize(1, 1)
 
         # layout
         vbox0 = QW.QVBoxLayout()
@@ -66,10 +62,14 @@ class DataBrowserMod(QW.QWidget):
         self.setLayout(vbox0)
         self.sample_data_list=[]
 
-        self.get_sample_datasets('./../../sample_datasets')
 
     def lv_data_clikced(self, selected_idx):
+        self.cb_feat0.currentIndexChanged.disconnect(self.plot_sample_data)
+        self.cb_feat1.currentIndexChanged.disconnect(self.plot_sample_data)
+        self.cb_class.currentIndexChanged.disconnect(self.plot_sample_data)
+
         idx = selected_idx.row()
+        self.lbl_selected_data.setText(self.sample_name_list[idx])
         feats = self.feat_name_list[idx]
 
         self.cb_feat0.clear()
@@ -81,20 +81,14 @@ class DataBrowserMod(QW.QWidget):
             self.cb_class.addItem(feat)
         self.plot_sample_data()
 
-    def get_sample_dict(self):
-        # self.sample_name_list = ['sample1', 'sample2', 'sample3']
-        # self.sample_data_list = [[1,2,3], [2,6,9], [5,1,8]]
-        # self.sample_dict = {'sample_name_list': self.sample_name_list,
-        #                     'sample_data_list': self.sample_data_list}
-        # return self.sample_dict
-        pass
-
-    # def set_sample_names2item_model(self):
-    #     for data_name in sample_dict['sample_name_list']:
-    #         item = QG.QStandardItem(data_name)
-    #         item_model.appendRow(item)
+        self.cb_feat0.currentIndexChanged.connect(self.plot_sample_data)
+        self.cb_feat1.currentIndexChanged.connect(self.plot_sample_data)
+        self.cb_class.currentIndexChanged.connect(self.plot_sample_data)
 
     def plot_sample_data(self):
+        self.ax.clear()
+        self.canvas.draw()
+
         lv_idx = self.lv_data.currentIndex().row()
         feat0_idx = self.cb_feat0.currentIndex()
         feat1_idx = self.cb_feat1.currentIndex()
@@ -104,30 +98,16 @@ class DataBrowserMod(QW.QWidget):
         feat0 = df_dataset.iloc[:, feat0_idx]
         feat1 = df_dataset.iloc[:, feat1_idx]
         classes = df_dataset.iloc[:, class_idx]
-        print(len(classes.unique()))
-        print(len(classes.unique())>10)
         if len(classes.unique()) > 10:
-            print('plot shinaiyo')
             return
-        print('plot suruyo')
 
-        self.ax.clear()
-        for class_ in classes:
+        colors = ['r', 'b', 'g', 'o', 'c', 'm', 'y', 'b', 'gray', 'darkred']
+        for class_i, class_ in enumerate(classes.unique()):
             self.ax.plot(feat0[classes == class_],
                          feat1[classes == class_],
-                         lw=0, marker='.', markersize=5, alpha=0.5)
+                         lw=0, marker='o', markersize=5, alpha=0.5,
+                         markeredgewidth=0, markerfacecolor=colors[class_i])
         self.canvas.draw()
-        # selected_idx = index.row()
-        # sample_data0 = self.sample_data_list[0]
-        # sample_data = self.sample_data_list[selected_idx]
-        # self.ax.clear()
-        # self.ax.plot(sample_data0, sample_data)
-        # self.canvas.draw()
-
-    # def show_sample_name(self, index):
-    #     selected_idx = index.row()
-    #     sample_name = self.sample_name_list[selected_idx]
-    #     self.lbl_selected_data.setText(sample_name)
 
     def get_sample_datasets(self, dir_sample_datasets):
         path_datasets_list = glob.glob(dir_sample_datasets + '/*.csv')
@@ -136,28 +116,10 @@ class DataBrowserMod(QW.QWidget):
             self.datasets.append(dataset)
             self.feat_name_list.append(dataset.columns)
 
-            # listview にサンプル名を表示
-            item = QG.QStandardItem(os.path.basename(path))
+            sample_name = os.path.basename(path)
+            self.sample_name_list.append(sample_name)
+            item = QG.QStandardItem(sample_name)
             self.item_model.appendRow(item)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def main():
@@ -165,7 +127,10 @@ def main():
     app = QW.QApplication(sys.argv)
 
     w = DataBrowserMod()
+    dir_sample_datasets = './../../sample_datasets'
+    w.get_sample_datasets(dir_sample_datasets=dir_sample_datasets)
     w.show()
+
     sys.exit(app.exec_())
 
 
