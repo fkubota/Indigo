@@ -2,8 +2,10 @@ import sys
 import os
 import glob
 import pandas as pd
+import numpy as np
 import PyQt5.QtWidgets as QW
 import PyQt5.QtGui as QG
+import PyQt5.QtCore as QC
 from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
 import matplotlib.pyplot as plt
 # import seaborn as sns
@@ -35,6 +37,7 @@ class DataBrowserMod(QW.QWidget):
 
         # listview widget
         self.lv_data = QW.QListView()
+        self.lv_data.setFixedHeight(150)
         self.item_model = QG.QStandardItemModel(self.lv_data)
         self.lv_data.setModel(self.item_model)
         self.lv_data.clicked.connect(self.lv_data_clikced)
@@ -42,6 +45,7 @@ class DataBrowserMod(QW.QWidget):
         # matplotlib widget
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
+        # self.canvas.setSizePolicy(QW.QSizePolicy.Expanding, QW.QSizePolicy.Expanding)
         self.ax = self.figure.add_subplot(111)
         toolbar = NavigationToolbar(self.canvas, parent=self.canvas)
         # toolbar.resize(1, 1)
@@ -121,17 +125,17 @@ class DataBrowserMod(QW.QWidget):
             item = QG.QStandardItem(sample_name)
             self.item_model.appendRow(item)
 
-    def get_trainning_data(self):
-        datasets_idx = 
+    def get_training_data(self):
+        lv_idx = self.lv_data.currentIndex().row()
         feat0_idx = self.cb_feat0.currentIndex()
         feat1_idx = self.cb_feat1.currentIndex()
         label_idx = self.cb_class.currentIndex()
-        print(feat0_idx, feat1_idx, label_idx)
 
-        feat0 = self.datasets[feat0_idx]
-        feat1 = self.datasets[feat1_idx]
-        X = [feat0, feat1]
-        y = self.datasets[label_idx]
+        dataset = self.datasets[lv_idx]
+        feat0 = dataset.iloc[:, feat0_idx]
+        feat1 = dataset.iloc[:, feat1_idx]
+        X = np.array([feat0, feat1]).T
+        y = np.array(dataset.iloc[:, label_idx])
 
         return X, y
 

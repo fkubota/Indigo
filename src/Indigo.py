@@ -2,6 +2,7 @@ import sys
 import os
 script_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(script_path + '/../'))
+import time
 
 import PyQt5.QtWidgets as QW
 import PyQt5.QtGui as QG
@@ -34,9 +35,9 @@ class Indigo(QW.QMainWindow):
         self.lbl_arrow_r1 = QW.QLabel('==>')
         self.lbl_state_import = QW.QLabel('not yet')
         self.lbl_state_fit = QW.QLabel('not yet')
-        self.le_from = QW.QLineEdit('sklearn.linear_model')
-        self.le_import = QW.QLineEdit('Perceptron')
-        self.le_args = QW.QLineEdit()
+        self.le_from = QW.QLineEdit('sklearn.svm')
+        self.le_import = QW.QLineEdit('SVC')
+        self.le_args = QW.QLineEdit('gamma=0.2, C=1.0')
         self.btn_import_model = QW.QPushButton('import model')
         self.btn_import_model.clicked.connect(self.exec_import_model)
         self.btn_fit_model = QW.QPushButton('fit model')
@@ -44,7 +45,6 @@ class Indigo(QW.QMainWindow):
 
         # matplotlib_mod
         self.plt_widget = MatplotlibMod()
-        self.plt_widget.sample_plot()
 
         # layout
         hbox_model = QW.QHBoxLayout()
@@ -95,6 +95,9 @@ class Indigo(QW.QMainWindow):
         # pixmap = QG.QPixmap('./../images/sample/pyqt.png')
         # lbl_smple_img.setPixmap(pixmap.scaled(100, 100))
         # # ----------
+        self.timer = QC.QTimer(self)
+        self.timer.timeout.connect(self.lbl_state_fit.update)
+        self.timer.start(200)#ミリ秒単位
 
     def exec_import_model(self):
         print('---')
@@ -108,30 +111,35 @@ class Indigo(QW.QMainWindow):
             exec(str_exec)
 
             # create instanse
-            exec('self.model = {}()'.format(str_import))
+            exec('self.model = {}({})'.format(str_import, str_args))
 
         except:
+            import traceback
+            traceback.print_exc()
             print('error')
             return
 
-        self.lbl_state_import.setText('Done')
+        self.lbl_state_import.setText(str_import)
 
     def exec_fit_model(self):
         print('---')
         print('exec fit model')
 
-        # trainning data の取得
-        X, y = self.data_browser_mod.get_trainning_data()
+        self.lbl_state_fit.setText('Calculating')
 
-        str_import = self.le_import.text()
-        str_fit = '{}.fit(X, y)'.format(str_import)
+        X, y = self.data_browser_mod.get_training_data()
+
+        str_fit = 'self.model.fit(X, y)'
         try:
             exec(str_fit)
         except:
             print('error')
             return
 
-        self.lbl_state_fit.setText('Done')
+        self.plt_widget.plot_decision_regions(X, y, self.model, resolution=0.02)
+
+        self.lbl_state_fit.setText(self.le_import.text())
+
 
 
 
