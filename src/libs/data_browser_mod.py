@@ -8,8 +8,8 @@ import PyQt5.QtGui as QG
 import PyQt5.QtCore as QC
 from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
 import matplotlib.pyplot as plt
-# import seaborn as sns
-# sns.set(style='darkgrid')
+import seaborn as sns
+sns.set(style='darkgrid')
 
 
 class DataBrowserMod(QW.QWidget):

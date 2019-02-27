@@ -1,6 +1,8 @@
 from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+import seaborn as sns
+sns.set(style='darkgrid')
 import numpy as np
 import PyQt5.QtWidgets as QW
 
@@ -32,7 +34,7 @@ class MatplotlibMod(QW.QWidget):
         self.ax.clear()
 
         # setup marker generator and color map
-        markers = ('s', 'x', 'o', '^', 'v')
+        markers = ('o', 'x', 's', '^', 'v')
         colors = ('red', 'blue', 'lightgreen', 'gray', 'cyan')
         cmap = ListedColormap(colors[:len(np.unique(y))])
 
@@ -43,18 +45,18 @@ class MatplotlibMod(QW.QWidget):
                                np.arange(x2_min, x2_max, resolution))
         Z = classifier.predict(np.array([xx1.ravel(), xx2.ravel()]).T)
         Z = Z.reshape(xx1.shape)
-        self.ax.contourf(xx1, xx2, Z, alpha=0.3, cmap=cmap)
+        self.ax.contourf(xx1, xx2, Z, alpha=0.1, cmap=cmap)
         self.ax.set_xlim(xx1.min(), xx1.max())
         self.ax.set_ylim(xx2.min(), xx2.max())
 
         for idx, cl in enumerate(np.unique(y)):
             self.ax.scatter(x=X[y == cl, 0],
                         y=X[y == cl, 1],
-                        alpha=0.8,
+                        alpha=0.7,
                         c=colors[idx],
                         marker=markers[idx],
                         label=cl,
-                        edgecolor='black')
+                        edgecolor='')
 
         # highlight test samples
         if test_idx:
