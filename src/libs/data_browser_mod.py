@@ -121,6 +121,22 @@ class DataBrowserMod(QW.QWidget):
             item = QG.QStandardItem(sample_name)
             self.item_model.appendRow(item)
 
+    def get_trainning_data(self):
+        datasets_idx = 
+        feat0_idx = self.cb_feat0.currentIndex()
+        feat1_idx = self.cb_feat1.currentIndex()
+        label_idx = self.cb_class.currentIndex()
+        print(feat0_idx, feat1_idx, label_idx)
+
+        feat0 = self.datasets[feat0_idx]
+        feat1 = self.datasets[feat1_idx]
+        X = [feat0, feat1]
+        y = self.datasets[label_idx]
+
+        return X, y
+
+
+
 
 def main():
 
