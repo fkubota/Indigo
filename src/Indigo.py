@@ -25,6 +25,9 @@ class Indigo(QW.QMainWindow):
 
         # Mainwindow
         self.setWindowTitle('Indigo')
+        f = open("./../myStyle_BlackBlue.css", "r")
+        style = f.read()
+        self.setStyleSheet(style)
 
         # Basic Widget @central widget
         self.w_central = QW.QWidget()

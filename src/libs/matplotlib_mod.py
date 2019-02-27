@@ -14,6 +14,8 @@ class MatplotlibMod(QW.QWidget):
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
         self.ax = self.figure.add_subplot(111)
+        self.figure.patch.set_facecolor('#31363b')  # 図全体の背景色
+        self.ax.patch.set_facecolor('gray')
         toolbar = NavigationToolbar(self.canvas, self.canvas)
         toolbar.resize(10, 10)
 

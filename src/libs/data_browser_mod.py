@@ -45,8 +45,9 @@ class DataBrowserMod(QW.QWidget):
         # matplotlib widget
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
-        # self.canvas.setSizePolicy(QW.QSizePolicy.Expanding, QW.QSizePolicy.Expanding)
         self.ax = self.figure.add_subplot(111)
+        self.figure.patch.set_facecolor('#31363b')  # 図全体の背景色
+        self.ax.patch.set_facecolor('gray')
         toolbar = NavigationToolbar(self.canvas, parent=self.canvas)
         # toolbar.resize(1, 1)
 
