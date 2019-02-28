@@ -51,12 +51,12 @@ class MatplotlibMod(QW.QWidget):
 
         for idx, cl in enumerate(np.unique(y)):
             self.ax.scatter(x=X[y == cl, 0],
-                        y=X[y == cl, 1],
-                        alpha=0.7,
-                        c=colors[idx],
-                        marker=markers[idx],
-                        label=cl,
-                        edgecolor='')
+                            y=X[y == cl, 1],
+                            alpha=0.7,
+                            c=colors[idx],
+                            marker=markers[idx],
+                            label=cl,
+                            edgecolor='')
 
         # highlight test samples
         if test_idx:
@@ -64,14 +64,14 @@ class MatplotlibMod(QW.QWidget):
             X_test, y_test = X[test_idx, :], y[test_idx]
 
             self.ax.scatter(X_test[:, 0],
-                        X_test[:, 1],
-                        c='',
-                        edgecolor='red',
-                        alpha=1.0,
-                        linewidth=1,
-                        marker='o',
-                        s=100,
-                        label='test set')
+                            X_test[:, 1],
+                            c='',
+                            edgecolor='red',
+                            alpha=1.0,
+                            linewidth=1,
+                            marker='o',
+                            s=100,
+                            label='test set')
 
         self.canvas.draw()
 
