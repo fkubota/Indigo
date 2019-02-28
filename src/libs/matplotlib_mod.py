@@ -1,8 +1,8 @@
 from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
-import seaborn as sns
-sns.set(style='darkgrid')
+# import seaborn as sns
+# sns.set(style='darkgrid')
 import numpy as np
 import PyQt5.QtWidgets as QW
 
@@ -14,9 +14,8 @@ class MatplotlibMod(QW.QWidget):
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
         self.ax = self.figure.add_subplot(111)
-        self.figure.patch.set_facecolor('#AAB8D8')  # 図全体の背景色
-        # self.figure.patch.set_facecolor('#3E5280')  # 図全体の背景色
-        self.ax.patch.set_facecolor('gray')
+        self.figure.patch.set_facecolor('#F4F4FA')  # 図全体の背景色
+        # self.ax.patch.set_facecolor('#3E5280')
         toolbar = NavigationToolbar(self.canvas, self.canvas)
         toolbar.resize(10, 10)
 
@@ -35,6 +34,7 @@ class MatplotlibMod(QW.QWidget):
 
     def plot_decision_regions(self, X, y, classifier, resolution=0.02):
         self.ax.clear()
+        # self.ax.patch.set_facecolor('#3E5280')
 
         # setup marker generator and color map
         markers = ('o', 'x', 's', '^', 'v')
@@ -65,12 +65,13 @@ class MatplotlibMod(QW.QWidget):
 
     def plot_predicted_class(self, X, y, classifier, resolution=0.02):
         self.ax.clear()
+        # self.ax.patch.set_facecolor('#3E5280')
 
         X_pred = classifier.predict(X)
 
         for class_ in np.unique(X_pred):
-            self.ax.scatter(X[X_pred==class_, 0],
-                            X[X_pred==class_, 1],
+            self.ax.scatter(X[X_pred == class_, 0],
+                            X[X_pred == class_, 1],
                             alpha=0.7,
                             edgecolor='')
 

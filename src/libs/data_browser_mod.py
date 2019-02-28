@@ -8,8 +8,8 @@ import PyQt5.QtGui as QG
 import PyQt5.QtCore as QC
 from matplotlib.backends.backend_qt4agg import (FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
 import matplotlib.pyplot as plt
-import seaborn as sns
-sns.set(style='darkgrid')
+# import seaborn as sns
+# sns.set(style='darkgrid')
 
 
 class DataBrowserMod(QW.QWidget):
@@ -21,6 +21,7 @@ class DataBrowserMod(QW.QWidget):
 
         self.setWindowTitle('Data Browser')
         self.resize(300, 600)
+        # self.setStyleSheet('QWidget{background-color: #3E5280}')
 
         # basic widget
         self.lbl_selected_data = QW.QLabel()
@@ -46,9 +47,9 @@ class DataBrowserMod(QW.QWidget):
         self.figure = plt.figure()
         self.canvas = FigureCanvas(self.figure)
         self.ax = self.figure.add_subplot(111)
-        self.figure.patch.set_facecolor('#AAB8D8')  # 図全体の背景色
-        # self.figure.patch.set_facecolor('#3E5280')  # 図全体の背景色
-        self.ax.patch.set_facecolor('gray')
+        self.figure.patch.set_facecolor('#F5F4FA')  # 図全体の背景色
+        # self.ax.patch.set_facecolor('#3E5280')
+        # self.ax.patch.set_facecolor('gray')
         toolbar = NavigationToolbar(self.canvas, parent=self.canvas)
         # toolbar.resize(1, 1)
 
@@ -66,8 +67,7 @@ class DataBrowserMod(QW.QWidget):
         vbox0.addWidget(toolbar)
         vbox0.addWidget(self.canvas)
         self.setLayout(vbox0)
-        self.sample_data_list=[]
-
+        self.sample_data_list = []
 
     def lv_data_clikced(self, selected_idx):
         self.cb_feat0.currentIndexChanged.disconnect(self.plot_sample_data)
@@ -93,6 +93,7 @@ class DataBrowserMod(QW.QWidget):
 
     def plot_sample_data(self):
         self.ax.clear()
+        # self.ax.patch.set_facecolor('#3E5280')
         self.canvas.draw()
 
         lv_idx = self.lv_data.currentIndex().row()

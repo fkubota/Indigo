@@ -19,6 +19,7 @@ class Indigo(QW.QMainWindow):
 
         # constants
         self.DIR_SAMPLE_DATASETS = './../sample_datasets'
+        self.DIR_ICON_IMAGES = './../icon'
 
         # valiable
         self.model = 0
@@ -100,6 +101,18 @@ class Indigo(QW.QMainWindow):
         self.hsplitter0.addWidget(self.w_central)
         self.hsplitter0.setSizes([100, 10])
         self.setCentralWidget(self.hsplitter0)
+
+        # toolbar
+        self.add_region_wav = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/indigo_icon.png'),
+                                         'region', self)
+        # self.add_region_wav.triggered.connect(self.show_region)
+        self.toolber = self.addToolBar('')
+        self.toolber.setStyleSheet('background-color: #3E5280')
+        self.toolber.addAction(self.add_region_wav)
+
+        # statusbar
+        self.statusBar().showMessage('hello')
+        # self.status.setStyleSheet('background-color: #3E5280')
 
 
         # # ----------

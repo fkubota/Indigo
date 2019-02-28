@@ -8,13 +8,23 @@ QWidget
     color: #3E5280;
     background-color: #F4F4FA;
     selection-background-color:#3E5280;
-    selection-color: #D2EC3F;
+    selection-color: #F4F4FA;
     background-clip: border;
     border-image: none;
     border: 0px transparent black;
     outline: 0;
 }
 
+QSizeGrip
+{
+    background-color: #3E5280;
+}
+
+QStatusBar
+{
+    background-color: #3E5280;
+    color: #F4F4FA;
+}
 
 QLineEdit
 {
@@ -45,7 +55,7 @@ QTextEdit
 
 QComboBox
 {
-    selection-background-color: #3daee9;
+    selection-background-color: #3E5280;
     background-color: #AAB8D8;
     border-style: solid;
     border: 0px solid #76797C;
@@ -254,12 +264,12 @@ QTableView, QHeaderView
 
 QTableView::item:pressed, QListView::item:pressed, QTreeView::item:pressed  {
     background: #3E5280;
-    color: #eff0f1;
+    color: #F4F4FA;
 }
 
 QTableView::item:selected:active, QTreeView::item:selected:active, QListView::item:selected:active  {
-    background: #287399;
-    color: #eff0f1;
+    background: #3E5280;
+    color: #F4F4FA;
 }
 
 
