@@ -27,6 +27,8 @@ class Indigo(QW.QMainWindow):
         self.setWindowTitle('Indigo')
 
         # Basic Widget @central widget
+        self.space_boundary_plot = QW.QWidget()
+        self.space_boundary_plot.setSizePolicy(QW.QSizePolicy.Expanding, QW.QSizePolicy.Fixed)
         self.w_central = QW.QWidget()
         self.lbl_from = QW.QLabel('from')
         self.lbl_import = QW.QLabel('import')
@@ -35,6 +37,7 @@ class Indigo(QW.QMainWindow):
         self.lbl_arrow_r1 = QW.QLabel('==>')
         self.lbl_state_import = QW.QLabel('not yet')
         self.lbl_state_fit = QW.QLabel('not yet')
+        self.lbl_boundary_plot = QW.QLabel('plot boundary')
         self.le_from = QW.QLineEdit('sklearn.svm')
         self.le_import = QW.QLineEdit('SVC')
         self.le_args = QW.QLineEdit('gamma=0.2, C=1.0')
@@ -42,11 +45,17 @@ class Indigo(QW.QMainWindow):
         self.btn_import_model.clicked.connect(self.exec_import_model)
         self.btn_fit_model = QW.QPushButton('fit model')
         self.btn_fit_model.clicked.connect(self.exec_fit_model)
+        self.check_boundary_plot = QW.QCheckBox()
+        self.check_boundary_plot.setChecked(True)
 
         # matplotlib_mod
         self.plt_widget = MatplotlibMod()
 
         # layout
+        hbox_boundary_plot = QW.QHBoxLayout()
+        hbox_boundary_plot.addWidget(self.check_boundary_plot)
+        hbox_boundary_plot.addWidget(self.lbl_boundary_plot)
+        hbox_boundary_plot.addWidget(self.space_boundary_plot)
         hbox_model = QW.QHBoxLayout()
         hbox_model.addWidget(self.lbl_from)
         hbox_model.addWidget(self.le_from)
@@ -65,6 +74,7 @@ class Indigo(QW.QMainWindow):
 
         vbox0 = QW.QVBoxLayout()
         vbox0.addWidget(self.plt_widget)
+        vbox0.addLayout(hbox_boundary_plot)
         vbox0.addLayout(hbox_model)
         vbox0.addLayout(hbox_model_status)
         vbox0.addLayout(hbox_fit_status)
@@ -125,8 +135,6 @@ class Indigo(QW.QMainWindow):
         print('---')
         print('exec fit model')
 
-        self.lbl_state_fit.setText('Calculating')
-
         X, y = self.data_browser_mod.get_training_data()
 
         str_fit = 'self.model.fit(X, y)'
@@ -136,17 +144,12 @@ class Indigo(QW.QMainWindow):
             print('error')
             return
 
-        self.plt_widget.plot_decision_regions(X, y, self.model, resolution=0.02)
+        if self.check_boundary_plot.checkState():
+            self.plt_widget.plot_decision_regions(X, y, self.model, resolution=0.02)
+        else:
+            self.plt_widget.plot_predicted_class(X, y, self.model, resolution=0.02)
 
         self.lbl_state_fit.setText(self.le_import.text())
-
-
-
-
-
-
-
-
 
 
 def main():
