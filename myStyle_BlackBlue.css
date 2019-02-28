@@ -4,9 +4,9 @@ QCheckBox {
 
 QWidget
 {
-    font-family: Meiryo;
+    font-family: "Cutive Mono";
     color: #3E5280;
-    background-color: #D2D2D2;
+    background-color: #F4F4FA;
     selection-background-color:#3E5280;
     selection-color: #D2EC3F;
     background-clip: border;
@@ -18,20 +18,20 @@ QWidget
 
 QLineEdit
 {
-    background-color: #232629;
+    background-color: #F4F4FA;
     padding: 5px;
     border-style: solid;
-    border: 1px solid #76797C;
+    border: 1px solid #AAB8D8;
     border-radius: 2px;
-    color: #eff0f1;
+    color: #3E5280;
 }
 
 QListView
 {
-    background-color: #232629;
+    background-color: #AAB8D8;
     padding: 5px;
     border-style: solid;
-    border: 1px solid #76797C;
+    border: 0px solid #76797C;
     border-radius: 2px;
     color: #eff0f1;
 }
@@ -46,7 +46,7 @@ QTextEdit
 QComboBox
 {
     selection-background-color: #3daee9;
-    background-color: #D2D2D2;
+    background-color: #AAB8D8;
     border-style: solid;
     border: 0px solid #76797C;
     border-radius: 2px;
@@ -56,8 +56,9 @@ QComboBox
 
 QComboBox:hover,QPushButton:hover,QLineEdit:hover,QTextEdit:hover
 {
-    border: 2px solid #D2EC3F;
-    color: #eff0f1;
+    border: 2px solid #3E5280;
+    background-color: #3E5280;
+    color: #F4F4FA;
 }
 
 
@@ -138,8 +139,8 @@ QTabBar::tab:bottom:!selected:hover {
 QPushButton
 {
     font-family: Meiryo;
-    color: #3E5280;
-    background-color: #E2E2E2;
+    color: #F4F4FA;
+    background-color: #AAB8D8;
     border-width: 0px;
     border-color: #1e1e1e;
     border-style: solid;
@@ -149,7 +150,7 @@ QPushButton
 
 QPushButton:pressed
 {
-    background-color: #D2EC3F;
+    background-color: #3E5280;
 }
 
 QMainWindow::separator
@@ -252,7 +253,7 @@ QTableView, QHeaderView
 }
 
 QTableView::item:pressed, QListView::item:pressed, QTreeView::item:pressed  {
-    background: #18465d;
+    background: #3E5280;
     color: #eff0f1;
 }
 
