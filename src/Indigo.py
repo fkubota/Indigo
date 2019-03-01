@@ -25,6 +25,7 @@ class Indigo(QW.QMainWindow):
         self.model = 0
 
         # Mainwindow
+        self.resize(1300, 1300)
         self.setWindowTitle('Indigo')
         f = open("./../myStyle_BlackBlue.css", "r")
         style = f.read()
