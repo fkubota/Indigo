@@ -49,6 +49,7 @@ class Indigo(QW.QMainWindow):
         self.le_import = QW.QLineEdit('SVC')
         self.le_args = QW.QLineEdit('gamma=0.2, C={}')
         self.le_format_step = QW.QLineEdit('0.1')
+        self.le_format_step.editingFinished.connect(self.edited_le_format_stel)
         self.btn_import_model = QW.QPushButton('import model')
         self.btn_import_model.clicked.connect(self.exec_import_model)
         self.btn_fit_model = QW.QPushButton('fit model')
@@ -148,7 +149,6 @@ class Indigo(QW.QMainWindow):
         str_import = self.le_import.text()
         str_args =   self.le_args.text()
         str_args_val = self.spinbox_format.value()
-        str_args_step = float(self.le_format_step.text())
         str_exec_import_model = 'from {} import {}'.format(str_from, str_import)
         str_exec_create_model = 'self.model = {}({})'.format(str_import, str_args)
         if '{}' in str_exec_create_model:
@@ -190,6 +190,10 @@ class Indigo(QW.QMainWindow):
             self.plt_widget.plot_predicted_class(X, y, self.model, resolution=0.02)
 
         self.lbl_state_fit.setText(self.le_import.text())
+
+    def edited_le_format_stel(self):
+        step_val = float(self.le_format_step.text())
+        self.spinbox_format.setSingleStep(float(step_val))
 
 
 def main():
