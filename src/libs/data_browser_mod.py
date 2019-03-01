@@ -24,7 +24,6 @@ class DataBrowserMod(QW.QWidget):
         # self.setStyleSheet('QWidget{background-color: #3E5280}')
 
         # basic widget
-        self.lbl_selected_data = QW.QLabel()
         self.lbl_feat0 = QW.QLabel('feat0')
         self.lbl_feat1 = QW.QLabel('feat1')
         self.lbl_class = QW.QLabel('class')
@@ -55,7 +54,6 @@ class DataBrowserMod(QW.QWidget):
 
         # layout
         vbox0 = QW.QVBoxLayout()
-        vbox0.addWidget(self.lbl_selected_data)
         vbox0.addWidget(self.lv_data)
         vbox0.addWidget(self.btn_show_data)
         vbox0.addWidget(self.lbl_feat0)
@@ -75,7 +73,6 @@ class DataBrowserMod(QW.QWidget):
         self.cb_class.currentIndexChanged.disconnect(self.plot_sample_data)
 
         idx = selected_idx.row()
-        self.lbl_selected_data.setText(self.sample_name_list[idx])
         feats = self.feat_name_list[idx]
 
         self.cb_feat0.clear()

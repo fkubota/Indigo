@@ -25,7 +25,7 @@ class Indigo(QW.QMainWindow):
         self.model = 0
 
         # Mainwindow
-        self.resize(1300, 1300)
+        self.resize(1000, 700)
         self.setWindowTitle('Indigo')
         f = open("./../myStyle_BlackBlue.css", "r")
         style = f.read()
@@ -38,6 +38,8 @@ class Indigo(QW.QMainWindow):
         self.lbl_from = QW.QLabel('from')
         self.lbl_import = QW.QLabel('import')
         self.lbl_args = QW.QLabel('args = ')
+        self.lbl_format = QW.QLabel('.format')
+        self.lbl_format_step = QW.QLabel('step')
         self.lbl_arrow_r0 = QW.QLabel('==>')
         self.lbl_arrow_r1 = QW.QLabel('==>')
         self.lbl_state_import = QW.QLabel('not yet')
@@ -45,11 +47,18 @@ class Indigo(QW.QMainWindow):
         self.lbl_boundary_plot = QW.QLabel('plot boundary')
         self.le_from = QW.QLineEdit('sklearn.svm')
         self.le_import = QW.QLineEdit('SVC')
-        self.le_args = QW.QLineEdit('gamma=0.2, C=1.0')
+        self.le_args = QW.QLineEdit('gamma=0.2, C={}')
+        self.le_format_step = QW.QLineEdit('0.1')
         self.btn_import_model = QW.QPushButton('import model')
         self.btn_import_model.clicked.connect(self.exec_import_model)
         self.btn_fit_model = QW.QPushButton('fit model')
         self.btn_fit_model.clicked.connect(self.exec_fit_model)
+        self.spinbox_format = QW.QDoubleSpinBox()
+        self.spinbox_format.setFixedWidth(70)
+        self.spinbox_format.setValue(1)
+        self.spinbox_format.setSingleStep(0.1)
+        self.spinbox_format.setDecimals(3)
+        self.spinbox_format.valueChanged.connect(self.exec_import_model)
         self.check_boundary_plot = QW.QCheckBox()
         self.check_boundary_plot.setChecked(True)
 
@@ -57,17 +66,22 @@ class Indigo(QW.QMainWindow):
         self.plt_widget = MatplotlibMod()
 
         # layout
-        hbox_boundary_plot = QW.QHBoxLayout()
-        hbox_boundary_plot.addWidget(self.check_boundary_plot)
-        hbox_boundary_plot.addWidget(self.lbl_boundary_plot)
-        hbox_boundary_plot.addWidget(self.space_boundary_plot)
+        hbox_plot = QW.QHBoxLayout()
+        hbox_plot.addWidget(self.check_boundary_plot)
+        hbox_plot.addWidget(self.lbl_boundary_plot)
+        hbox_plot.addWidget(self.space_boundary_plot)
         hbox_model = QW.QHBoxLayout()
         hbox_model.addWidget(self.lbl_from)
         hbox_model.addWidget(self.le_from)
         hbox_model.addWidget(self.lbl_import)
         hbox_model.addWidget(self.le_import)
-        hbox_model.addWidget(self.lbl_args)
-        hbox_model.addWidget(self.le_args)
+        hbox_args = QW.QHBoxLayout()
+        hbox_args.addWidget(self.lbl_args)
+        hbox_args.addWidget(self.le_args)
+        hbox_args.addWidget(self.lbl_format)
+        hbox_args.addWidget(self.spinbox_format)
+        hbox_args.addWidget(self.lbl_format_step)
+        hbox_args.addWidget(self.le_format_step)
         hbox_model_status = QW.QHBoxLayout()
         hbox_model_status.addWidget(self.btn_import_model)
         hbox_model_status.addWidget(self.lbl_arrow_r0)
@@ -79,8 +93,9 @@ class Indigo(QW.QMainWindow):
 
         vbox0 = QW.QVBoxLayout()
         vbox0.addWidget(self.plt_widget)
-        vbox0.addLayout(hbox_boundary_plot)
+        vbox0.addLayout(hbox_plot)
         vbox0.addLayout(hbox_model)
+        vbox0.addLayout(hbox_args)
         vbox0.addLayout(hbox_model_status)
         vbox0.addLayout(hbox_fit_status)
         self.w_central.setLayout(vbox0)
@@ -132,13 +147,19 @@ class Indigo(QW.QMainWindow):
         str_from =   self.le_from.text()
         str_import = self.le_import.text()
         str_args =   self.le_args.text()
-        str_exec = 'from {} import {}'.format(str_from, str_import)
+        str_args_val = self.spinbox_format.value()
+        str_args_step = float(self.le_format_step.text())
+        str_exec_import_model = 'from {} import {}'.format(str_from, str_import)
+        str_exec_create_model = 'self.model = {}({})'.format(str_import, str_args)
+        if '{}' in str_exec_create_model:
+            str_exec_create_model = str_exec_create_model.format(str_args_val)
+
         try:
             # import model
-            exec(str_exec)
+            exec(str_exec_import_model)
 
             # create instanse
-            exec('self.model = {}({})'.format(str_import, str_args))
+            exec(str_exec_create_model)
 
         except:
             import traceback
@@ -147,6 +168,8 @@ class Indigo(QW.QMainWindow):
             return
 
         self.lbl_state_import.setText(str_import)
+
+        self.exec_fit_model()
 
     def exec_fit_model(self):
         print('---')
