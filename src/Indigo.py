@@ -13,6 +13,7 @@ from libs.matplotlib_mod import MatplotlibMod
 from libs.data_browser_mod import DataBrowserMod
 from libs.memo_mod import MemoMod
 from libs.sample_images_mod import SampleImagesMod
+from libs.check_module import make_gui
 
 class Indigo(QW.QMainWindow):
     def __init__(self, parent=None):
@@ -124,6 +125,10 @@ class Indigo(QW.QMainWindow):
         self.sample_images_mod.setStyleSheet(style)
         self.sample_images_mod.load_images(self.SAMPLE_IMAGES_PATH)
 
+        # check_module
+        self.check_module = make_gui()
+        self.check_module.setStyleSheet(style)
+
         # splitter0
         self.hsplitter0 = QW.QSplitter(QC.Qt.Horizontal)
         self.hsplitter0.addWidget(self.data_browser_mod)
@@ -136,12 +141,15 @@ class Indigo(QW.QMainWindow):
         self.action_memo.triggered.connect(self.memo_mod.show)
         self.action_sample_images = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/indigo_icon.png'), 'sample_images', self)
         self.action_sample_images.triggered.connect(self.sample_images_mod.show)
+        self.action_check_module = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/indigo_icon.png'), 'check_module', self)
+        self.action_check_module.triggered.connect(self.check_module.show)
         self.toolbar = self.addToolBar('')
         self.toolbar.setIconSize(QC.QSize(40, 40))
         self.toolbar.setStyleSheet('background-color: #3E5280')
         self.toolbar.addWidget(self.spacer_tool0)
         self.toolbar.addAction(self.action_memo)
         self.toolbar.addAction(self.action_sample_images)
+        self.toolbar.addAction(self.action_check_module)
         self.toolbar.addWidget(self.spacer_tool1)
 
         # statusbar
