@@ -7,7 +7,7 @@ QWidget
     font-family: "Cutive Mono";
     color: #3E5280;
     background-color: #F4F4FA;
-    selection-background-color:#3E5280;
+    selection-background-color:#3E52BB;
     selection-color: #F4F4FA;
     background-clip: border;
     border-image: none;
@@ -46,26 +46,17 @@ QListView
     color: #3E5280;
 }
 
-QTextEdit
-{
-    background-color: #232629;
-    color: #eff0f1;
-    border: 1px solid #76797C;
-}
-
 QComboBox
 {
     selection-background-color: #3E5280;
     color: #3E5280;
     background-color: #E8E8E8;
-    border-style: solid;
-    border: 0px solid #76797C;
     border-radius: 2px;
     padding: 5px;
     min-width: 75px;
 }
 
-QComboBox:hover,QPushButton:hover,QLineEdit:hover,QTextEdit:hover
+QComboBox:hover,QPushButton:hover,QLineEdit:hover
 {
     border: 2px solid #3E5280;
     background-color: #3E5280;
@@ -233,6 +224,11 @@ QSlider::sub-page:vertical, QSlider::add-page:horizontal {
     background: #3E3F40;
 }
 
+QToolTip
+{
+    color: #F4F4FA;
+}
+
 QToolButton:hover {
     background-color: transparent;
     border: 1px solid #D2EC3F;
@@ -249,6 +245,7 @@ QProgressBar {
 QProgressBar::chunk {
     background-color: #3E5280;
 }
+
 
 QTableView
 {
@@ -271,6 +268,12 @@ QTableView::item:pressed, QListView::item:pressed, QTreeView::item:pressed  {
 QTableView::item:selected:active, QTreeView::item:selected:active, QListView::item:selected:active  {
     background: #3E5280;
     color: #F4F4FA;
+}
+
+QTextEdit
+{
+    color: #3E5280;
+    background-color: #E8E8E8;
 }
 
 

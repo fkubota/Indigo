@@ -11,7 +11,8 @@ from PyQt5.QtGui import QIcon
 import matplotlib.pyplot as plt
 from libs.matplotlib_mod import MatplotlibMod
 from libs.data_browser_mod import DataBrowserMod
-
+from libs.memo_mod import MemoMod
+from libs.sample_images_mod import SampleImagesMod
 
 class Indigo(QW.QMainWindow):
     def __init__(self, parent=None):
@@ -19,7 +20,9 @@ class Indigo(QW.QMainWindow):
 
         # constants
         self.DIR_SAMPLE_DATASETS = './../sample_datasets'
-        self.DIR_ICON_IMAGES = './../icon'
+        self.DIR_ICON_IMAGES = './../images'
+        self.MEMO_PATH = './../memo.txt'
+        self.SAMPLE_IMAGES_PATH = './../images/sample_images'
 
         # valiable
         self.model = 0
@@ -27,13 +30,17 @@ class Indigo(QW.QMainWindow):
         # Mainwindow
         self.resize(1000, 700)
         self.setWindowTitle('Indigo')
-        f = open("./../myStyle_BlackBlue.css", "r")
+        f = open("./../Indigo_stylesheet.css", "r")
         style = f.read()
         self.setStyleSheet(style)
 
         # Basic Widget @central widget
         self.space_boundary_plot = QW.QWidget()
         self.space_boundary_plot.setSizePolicy(QW.QSizePolicy.Expanding, QW.QSizePolicy.Fixed)
+        self.spacer_tool0 = QW.QWidget()
+        self.spacer_tool0.setSizePolicy(QW.QSizePolicy.Expanding, QW.QSizePolicy.Fixed)
+        self.spacer_tool1 = QW.QWidget()
+        self.spacer_tool1.setSizePolicy(QW.QSizePolicy.Expanding, QW.QSizePolicy.Fixed)
         self.w_central = QW.QWidget()
         self.lbl_from = QW.QLabel('from')
         self.lbl_import = QW.QLabel('import')
@@ -106,13 +113,18 @@ class Indigo(QW.QMainWindow):
         self.data_browser_mod = DataBrowserMod()
         self.data_browser_mod.get_sample_datasets(dir_sample_datasets=self.DIR_SAMPLE_DATASETS)
 
-        # LeftDockWidget
-        # dock_left = QW.QDockWidget()
-        # dock_left.setWidget(data_browser_mod)
-        # self.addDockWidget(QC.Qt.LeftDockWidgetArea, dock_left)
+        # memo_mod
+        self.memo_mod = MemoMod()
+        self.memo_mod.setStyleSheet(style)
+        text = self.memo_mod.load_text(self.MEMO_PATH)
+        self.memo_mod.te.setText(text)
+
+        # sample_images_mod
+        self.sample_images_mod = SampleImagesMod()
+        self.sample_images_mod.setStyleSheet(style)
+        self.sample_images_mod.load_images(self.SAMPLE_IMAGES_PATH)
 
         # splitter0
-        # self.w_hsplitter0 = QW.QWidget()
         self.hsplitter0 = QW.QSplitter(QC.Qt.Horizontal)
         self.hsplitter0.addWidget(self.data_browser_mod)
         self.hsplitter0.addWidget(self.w_central)
@@ -120,24 +132,22 @@ class Indigo(QW.QMainWindow):
         self.setCentralWidget(self.hsplitter0)
 
         # toolbar
-        self.add_region_wav = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/indigo_icon.png'),
-                                         'region', self)
-        # self.add_region_wav.triggered.connect(self.show_region)
-        self.toolber = self.addToolBar('')
-        self.toolber.setStyleSheet('background-color: #3E5280')
-        self.toolber.addAction(self.add_region_wav)
+        self.action_memo = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/indigo_icon.png'), 'memo', self)
+        self.action_memo.triggered.connect(self.memo_mod.show)
+        self.action_sample_images = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/indigo_icon.png'), 'sample_images', self)
+        self.action_sample_images.triggered.connect(self.sample_images_mod.show)
+        self.toolbar = self.addToolBar('')
+        self.toolbar.setIconSize(QC.QSize(40, 40))
+        self.toolbar.setStyleSheet('background-color: #3E5280')
+        self.toolbar.addWidget(self.spacer_tool0)
+        self.toolbar.addAction(self.action_memo)
+        self.toolbar.addAction(self.action_sample_images)
+        self.toolbar.addWidget(self.spacer_tool1)
 
         # statusbar
         self.statusBar().showMessage('hello')
-        # self.status.setStyleSheet('background-color: #3E5280')
 
-
-        # # ----------
-        # lbl_smple_img = QW.QLabel(self.w_central)
-        # lbl_smple_img.setPixmap(QG.QPixmap('./../images/sample/pyqt.png'))
-        # pixmap = QG.QPixmap('./../images/sample/pyqt.png')
-        # lbl_smple_img.setPixmap(pixmap.scaled(100, 100))
-        # # ----------
+        # timer
         self.timer = QC.QTimer(self)
         self.timer.timeout.connect(self.lbl_state_fit.update)
         self.timer.start(200)#ミリ秒単位
@@ -200,7 +210,7 @@ def main():
 
     app = QW.QApplication(sys.argv)
 
-    path = './../icon/images/indigo_icon.png'
+    path = './../images/images/indigo_icon.png'
     path = path.replace('/', str(os.sep))
     app.setWindowIcon(QIcon(path))
 
