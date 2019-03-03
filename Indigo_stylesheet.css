@@ -4,7 +4,6 @@ QCheckBox {
 
 QWidget
 {
-    font-family: "Cutive Mono";
     color: #3E5280;
     background-color: #F4F4FA;
     selection-background-color:#3E52BB;
@@ -224,15 +223,22 @@ QSlider::sub-page:vertical, QSlider::add-page:horizontal {
     background: #3E3F40;
 }
 
+QDoubleSpinBox
+{
+    border: 1px solid #AAB8D8;
+    padding: 5px;
+}
+
 QToolTip
 {
     color: #F4F4FA;
+    padding: 3px;
 }
+
 
 QToolButton:hover {
     background-color: transparent;
     border: 1px solid #D2EC3F;
-    padding: 5px;
 }
 
 QProgressBar {

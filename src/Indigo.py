@@ -42,6 +42,8 @@ class Indigo(QW.QMainWindow):
         self.spacer_tool0.setSizePolicy(QW.QSizePolicy.Expanding, QW.QSizePolicy.Fixed)
         self.spacer_tool1 = QW.QWidget()
         self.spacer_tool1.setSizePolicy(QW.QSizePolicy.Expanding, QW.QSizePolicy.Fixed)
+        self.spacer_cal = QW.QWidget()
+        self.spacer_cal.setSizePolicy(QW.QSizePolicy.Expanding, QW.QSizePolicy.Fixed)
         self.w_central = QW.QWidget()
         self.lbl_from = QW.QLabel('from')
         self.lbl_import = QW.QLabel('import')
@@ -51,17 +53,16 @@ class Indigo(QW.QMainWindow):
         self.lbl_arrow_r0 = QW.QLabel('==>')
         self.lbl_arrow_r1 = QW.QLabel('==>')
         self.lbl_state_import = QW.QLabel('not yet')
-        self.lbl_state_fit = QW.QLabel('not yet')
         self.lbl_boundary_plot = QW.QLabel('plot boundary')
         self.le_from = QW.QLineEdit('sklearn.svm')
         self.le_import = QW.QLineEdit('SVC')
         self.le_args = QW.QLineEdit('gamma=0.2, C={}')
         self.le_format_step = QW.QLineEdit('0.1')
+        self.le_format_step.setFixedWidth(50)
         self.le_format_step.editingFinished.connect(self.edited_le_format_stel)
-        self.btn_import_model = QW.QPushButton('import model')
-        self.btn_import_model.clicked.connect(self.exec_import_model)
-        self.btn_fit_model = QW.QPushButton('fit model')
-        self.btn_fit_model.clicked.connect(self.exec_fit_model)
+        self.btn_calculation = QW.QPushButton('calculation')
+        self.btn_calculation.setFixedWidth(120)
+        self.btn_calculation.clicked.connect(self.exec_import_model)
         self.spinbox_format = QW.QDoubleSpinBox()
         self.spinbox_format.setFixedWidth(70)
         self.spinbox_format.setValue(1)
@@ -91,22 +92,16 @@ class Indigo(QW.QMainWindow):
         hbox_args.addWidget(self.spinbox_format)
         hbox_args.addWidget(self.lbl_format_step)
         hbox_args.addWidget(self.le_format_step)
-        hbox_model_status = QW.QHBoxLayout()
-        hbox_model_status.addWidget(self.btn_import_model)
-        hbox_model_status.addWidget(self.lbl_arrow_r0)
-        hbox_model_status.addWidget(self.lbl_state_import)
-        hbox_fit_status = QW.QHBoxLayout()
-        hbox_fit_status.addWidget(self.btn_fit_model)
-        hbox_fit_status.addWidget(self.lbl_arrow_r1)
-        hbox_fit_status.addWidget(self.lbl_state_fit)
+        hbox_calculation = QW.QHBoxLayout()
+        hbox_calculation.addWidget(self.spacer_cal)
+        hbox_calculation.addWidget(self.btn_calculation)
 
         vbox0 = QW.QVBoxLayout()
         vbox0.addWidget(self.plt_widget)
         vbox0.addLayout(hbox_plot)
         vbox0.addLayout(hbox_model)
         vbox0.addLayout(hbox_args)
-        vbox0.addLayout(hbox_model_status)
-        vbox0.addLayout(hbox_fit_status)
+        vbox0.addLayout(hbox_calculation)
         self.w_central.setLayout(vbox0)
 
 
@@ -155,11 +150,6 @@ class Indigo(QW.QMainWindow):
         # statusbar
         self.statusBar().showMessage('hello')
 
-        # timer
-        self.timer = QC.QTimer(self)
-        self.timer.timeout.connect(self.lbl_state_fit.update)
-        self.timer.start(200)#ミリ秒単位
-
     def exec_import_model(self):
         print('---')
         print('exec_import_model')
@@ -206,8 +196,6 @@ class Indigo(QW.QMainWindow):
             self.plt_widget.plot_decision_regions(X, y, self.model, resolution=0.02)
         else:
             self.plt_widget.plot_predicted_class(X, y, self.model, resolution=0.02)
-
-        self.lbl_state_fit.setText(self.le_import.text())
 
     def edited_le_format_stel(self):
         step_val = float(self.le_format_step.text())

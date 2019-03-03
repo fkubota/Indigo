@@ -27,7 +27,7 @@ class DataBrowserMod(QW.QWidget):
         self.lbl_feat0 = QW.QLabel('feat0')
         self.lbl_feat1 = QW.QLabel('feat1')
         self.lbl_class = QW.QLabel('class')
-        self.btn_show_data = QW.QPushButton('Show Data')
+        # self.btn_show_data = QW.QPushButton('Show Data')
         self.cb_feat0 = QW.QComboBox()
         self.cb_feat0.currentIndexChanged.connect(self.plot_sample_data)
         self.cb_feat1 = QW.QComboBox()
@@ -55,7 +55,7 @@ class DataBrowserMod(QW.QWidget):
         # layout
         vbox0 = QW.QVBoxLayout()
         vbox0.addWidget(self.lv_data)
-        vbox0.addWidget(self.btn_show_data)
+        # vbox0.addWidget(self.btn_show_data)
         vbox0.addWidget(self.lbl_feat0)
         vbox0.addWidget(self.cb_feat0)
         vbox0.addWidget(self.lbl_feat1)
