@@ -1,2 +1,4 @@
 from sklearn.mixture import GaussianMixture
 from sklearn.svm import SVC
+from sklearn.cluster
+from sklearn.manifold
