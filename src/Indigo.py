@@ -21,7 +21,7 @@ class Indigo(QW.QMainWindow):
 
         # constants
         self.DIR_SAMPLE_DATASETS = './../sample_datasets'
-        self.DIR_ICON_IMAGES = './../images'
+        self.DIR_ICON_IMAGES = './../images/icon'
         self.MEMO_PATH = './../memo.txt'
         self.SAMPLE_IMAGES_PATH = './../images/sample_images'
 
@@ -132,11 +132,11 @@ class Indigo(QW.QMainWindow):
         self.setCentralWidget(self.hsplitter0)
 
         # toolbar
-        self.action_memo = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/indigo_icon.png'), 'memo', self)
+        self.action_memo = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/memo.png'), 'memo', self)
         self.action_memo.triggered.connect(self.memo_mod.show)
-        self.action_sample_images = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/indigo_icon.png'), 'sample_images', self)
+        self.action_sample_images = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/image.png'), 'sample_images', self)
         self.action_sample_images.triggered.connect(self.sample_images_mod.show)
-        self.action_check_module = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/indigo_icon.png'), 'check_module', self)
+        self.action_check_module = QW.QAction(QG.QIcon(self.DIR_ICON_IMAGES + '/check_module.png'), 'check_module', self)
         self.action_check_module.triggered.connect(self.check_module.show)
         self.toolbar = self.addToolBar('')
         self.toolbar.setIconSize(QC.QSize(40, 40))
